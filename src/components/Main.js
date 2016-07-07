@@ -1,22 +1,37 @@
 require('normalize.css/normalize.css');
-require('styles/App.css');
+require('spectre.css/dist/spectre.css');
+require('styles/App.scss');
 
 import React from 'react';
+import SearchBox from './SearchBox';
+import ContentFilter from './ContentFilter';
+import SearchResults from './SearchResults';
+import Pagination from './Pagination';
 
-let yeomanImage = require('../images/yeoman.png');
-
-class AppComponent extends React.Component {
+class YTSearchComponent extends React.Component {
   render() {
     return (
-      <div className="index">
-        <img src={yeomanImage} alt="Yeoman Generator" />
-        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
-      </div>
+      <section className="yt-search">
+        <header className="column col-8 centered">
+          <h3 className="text-center mt-5">
+            Youtube Search
+          </h3>
+
+          <SearchBox keyword="hello" />
+          <ContentFilter />
+        </header>
+
+        <SearchResults />
+
+        <nav className="centered text-center">
+          <Pagination />
+        </nav>
+      </section>
     );
   }
 }
 
-AppComponent.defaultProps = {
+YTSearchComponent.defaultProps = {
 };
 
-export default AppComponent;
+export default YTSearchComponent;
