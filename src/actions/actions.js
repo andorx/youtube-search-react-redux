@@ -69,18 +69,21 @@ export function fetchSearchResults() {
     const {
       keyword,
       filters,
-      pageToken
+      pageToken,
+      maxResults
     } = state.search;
 
     const SEARCH_API =
       YoutubeAPI.URL +
-      queryBuilder(YoutubeAPI.KEY, keyword, filters, pageToken, 12);
+      queryBuilder(YoutubeAPI.KEY, keyword, filters, pageToken, maxResults);
 
     dispatch(searchForVideos());
 
     return fetch(SEARCH_API)
       .then(response => response.json())
       .then(json => {
+        dispatch(receiveSearchResult(json.items));
+
         if (json.prevPageToken) {
           dispatch(setPrevPageToken(json.prevPageToken));
         } else {
@@ -92,8 +95,6 @@ export function fetchSearchResults() {
         } else {
           dispatch(setNextPageToken(''));
         }
-
-        dispatch(receiveSearchResult(json.items));
       })
       .catch(error => { throw error; });
   };

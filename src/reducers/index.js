@@ -17,6 +17,7 @@ function search(state = {
   pageToken: '',
   nextPageToken: '',
   prevPageToken: '',
+  maxResults: 12,
   results: []
 }, action) {
   switch(action.type) {
