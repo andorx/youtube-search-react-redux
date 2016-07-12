@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import DropdownFilter from '../containers/DropdownFilter';
 
 class ContentFilter extends React.Component {
@@ -42,5 +42,11 @@ ContentFilter.defaultProps = {
     'movie': 'Movie'
   }
 };
+
+ContentFilter.propTypes = {
+  order: PropTypes.object,
+  videoDuration: PropTypes.object,
+  videoType: PropTypes.object
+}
 
 export default ContentFilter;

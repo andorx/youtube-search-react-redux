@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 class VideoList extends React.Component {
   constructor(props) {
@@ -41,6 +41,11 @@ class VideoList extends React.Component {
       </section>
     );
   }
+}
+
+VideoList.propTypes = {
+  results: PropTypes.arrayOf(PropTypes.object),
+  isProcessing: PropTypes.bool
 }
 
 export default VideoList;

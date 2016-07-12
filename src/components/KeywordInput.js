@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 class KeywordInput extends React.Component {
   constructor(props) {
@@ -33,5 +33,9 @@ class KeywordInput extends React.Component {
     );
   }
 }
+
+KeywordInput.propTypes = {
+  isProcessing: PropTypes.bool
+};
 
 export default KeywordInput;

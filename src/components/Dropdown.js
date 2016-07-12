@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 class Dropdown extends React.Component {
   constructor(props) {
@@ -32,12 +32,19 @@ class Dropdown extends React.Component {
     return (
       <select
         className="form-select"
-        disabled={this.props.isProcessing == true}
+        disabled={this.props.isProcessing === true}
         onChange={this.handleChange}>
         {genOptionsFromObject(this.props.values)}
       </select>
     );
   }
 }
+
+Dropdown.propTypes = {
+  filterBy: PropTypes.string,
+  values: PropTypes.object,
+  isProcessing: PropTypes.bool,
+  onChange: PropTypes.func
+};
 
 export default Dropdown;
