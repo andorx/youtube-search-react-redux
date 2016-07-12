@@ -73,6 +73,14 @@ function search(state = {
       });
     }
 
+    case actionTypes.RESET_PAGE_TOKEN: {
+      return Object.assign({}, state, {
+        nextPageToken: '',
+        prevPageToken: '',
+        pageToken: ''
+      });
+    }
+
     default:
       return state;
   }

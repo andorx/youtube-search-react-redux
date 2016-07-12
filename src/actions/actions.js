@@ -31,13 +31,13 @@ export function setContentFilter(filterType, filterValue) {
   };
 }
 
-export function navigateToNextPage(pageToken) {
+export function navigateToNextPage() {
   return {
     type: actionTypes.NAVIGATE_TO_NEXT_PAGE
   };
 }
 
-export function navigateToPrevPage(pageToken) {
+export function navigateToPrevPage() {
   return {
     type: actionTypes.NAVIGATE_TO_PREV_PAGE
   };
@@ -57,7 +57,12 @@ function setNextPageToken(nextPageToken) {
   }
 }
 
-// set pageToken, nextPageToken, prevPageToken
+export function resetPageToken() {
+  return {
+    type: actionTypes.RESET_PAGE_TOKEN
+  };
+}
+
 export function fetchSearchResults() {
   return (dispatch, getState) => {
     const state = getState();
