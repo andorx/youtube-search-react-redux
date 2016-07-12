@@ -8,7 +8,7 @@ import Dropdown from '../components/Dropdown';
 // that will be used later in event handler follow dispatch(fetchData())
 function mapStateToProps(state) {
   const props = {
-    isFetching: state.search.isFetching
+    isProcessing: state.search.isProcessing
   };
 
   return props;
