@@ -7,7 +7,7 @@ import KeywordInput from '../components/KeywordInput';
 function mapStateToProps(state) {
   const props = {
     keyword: state.search.keyword,
-    isFetching: state.search.isFetching
+    isProcessing: state.search.isProcessing
   };
 
   return props;

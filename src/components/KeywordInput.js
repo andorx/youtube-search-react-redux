@@ -25,7 +25,7 @@ class KeywordInput extends React.Component {
           type="text"
           className="form-input input-lg"
           placeholder="Type anything to start searching..."
-          disabled={this.props.isFetching == true}
+          disabled={this.props.isProcessing == true}
           ref="keyword"
           onKeyDown={this.handleSubmit}
           />
