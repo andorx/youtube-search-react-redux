@@ -9,10 +9,6 @@ import SearchResults from '../containers/SearchResults';
 import Pagination from '../containers/Pagination';
 
 class YTSearch extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <section className="yt-search">
