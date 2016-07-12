@@ -33,15 +33,13 @@ export function setContentFilter(filterType, filterValue) {
 
 export function navigateToNextPage(pageToken) {
   return {
-    type: actionTypes.NAVIGATE_TO_NEXT_PAGE,
-    pageToken
+    type: actionTypes.NAVIGATE_TO_NEXT_PAGE
   };
 }
 
 export function navigateToPrevPage(pageToken) {
   return {
-    type: actionTypes.NAVIGATE_TO_PREV_PAGE,
-    pageToken
+    type: actionTypes.NAVIGATE_TO_PREV_PAGE
   };
 }
 
@@ -71,10 +69,9 @@ export function fetchSearchResults() {
 
     const SEARCH_API =
       YoutubeAPI.URL +
-      queryBuilder(YoutubeAPI.KEY, keyword, filters, pageToken, 8);
+      queryBuilder(YoutubeAPI.KEY, keyword, filters, pageToken, 12);
 
     dispatch(searchForVideos());
-    console.log('SEARCH_API', SEARCH_API);
 
     return fetch(SEARCH_API)
       .then(response => response.json())

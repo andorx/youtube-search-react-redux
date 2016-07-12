@@ -41,13 +41,13 @@ function search(state = {
 
     case actionTypes.NAVIGATE_TO_NEXT_PAGE: {
       return Object.assign({}, state, {
-        pageToken: action.pageToken
+        pageToken: state.nextPageToken
       });
     }
 
     case actionTypes.NAVIGATE_TO_PREV_PAGE: {
       return Object.assign({}, state, {
-        pageToken: action.pageToken
+        pageToken: state.prevPageToken
       });
     }
 
