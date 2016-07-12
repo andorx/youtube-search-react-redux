@@ -6,7 +6,7 @@ class VideoList extends React.Component {
   }
 
   render() {
-    function createResultItem(item) {
+    function createItem(item) {
       var publishedAt = new Date(item.snippet.publishedAt).toLocaleString();
 
       return (
@@ -29,6 +29,18 @@ class VideoList extends React.Component {
       );
     }
 
+    function renderItems(items) {
+      if (items.length > 0) {
+        return items.map(createItem);
+      } else {
+        return (
+          <div className="column col-12 text-center">
+            <h5>No results found.</h5>
+          </div>
+        );
+      }
+    }
+
     return (
       <section className="columns col-multiline search-results">
         {
@@ -36,7 +48,7 @@ class VideoList extends React.Component {
           <div className="column col-12">
             <div className="loading"></div>
           </div>
-          ) : this.props.results.map(createResultItem)
+          ) : renderItems(this.props.results)
         }
       </section>
     );
