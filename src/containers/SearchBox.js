@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { changeKeyword, fetchSearchResults } from '../actions/actions';
+import { changeKeyword, resetPageToken, fetchSearchResults } from '../actions/actions';
 import KeywordInput from '../components/KeywordInput';
 
 function mapStateToProps(state) {
@@ -16,6 +16,7 @@ function mapDispatchToProps(dispatch) {
   return {
     onSubmit: function(keyword) {
       dispatch(changeKeyword(keyword));
+      dispatch(resetPageToken());
       dispatch(fetchSearchResults());
     }
   };

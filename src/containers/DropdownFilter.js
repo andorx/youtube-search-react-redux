@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { setContentFilter, fetchSearchResults } from '../actions/actions';
+import { setContentFilter, resetPageToken, fetchSearchResults } from '../actions/actions';
 import Dropdown from '../components/Dropdown';
 
 // Note: this statement attachs `dispatch` method to props,
@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch) {
   return  {
     onFilterChange: function(filterType, filterValue) {
       dispatch(setContentFilter(filterType, filterValue));
+      dispatch(resetPageToken());
       dispatch(fetchSearchResults());
     }
   };
