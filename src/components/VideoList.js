@@ -6,7 +6,7 @@ class VideoList extends React.Component {
   }
 
   render() {
-    function createResultItem(item, index) {
+    function createResultItem(item) {
       var publishedAt = new Date(item.snippet.publishedAt).toLocaleString();
 
       return (
@@ -16,9 +16,9 @@ class VideoList extends React.Component {
               <img src={ item.snippet.thumbnails.high.url } className="img-responsive" />
             </div>
             <div className="card-header">
-              <h4 className="card-title">
-                { item.snippet.title }
-              </h4>
+              <a href={'https://youtu.be/' + item.id.videoId} target="_blank">
+                <h4 className="card-title">{ item.snippet.title }</h4>
+              </a>
               <h6 className="card-meta">{ publishedAt }</h6>
             </div>
             <div className="card-body">
@@ -31,7 +31,13 @@ class VideoList extends React.Component {
 
     return (
       <section className="columns col-multiline search-results">
-        {this.props.results.map(createResultItem)}
+        {
+          this.props.isProcessing ? (
+          <div className="column col-12">
+            <div className="loading"></div>
+          </div>
+          ) : this.props.results.map(createResultItem)
+        }
       </section>
     );
   }
