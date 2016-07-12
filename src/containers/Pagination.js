@@ -8,10 +8,11 @@ import {
 } from '../actions/actions';
 import Pagination from '../components/Pagination';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   const props = {
     nextPageToken: state.search.nextPageToken,
-    prevPageToken: state.search.prevPageToken
+    prevPageToken: state.search.prevPageToken,
+    isProcessing: state.search.isProcessing
   };
 
   return props;

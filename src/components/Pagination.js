@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 class Pagination extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Pagination extends React.Component {
       <ul className="pagination">
         <li className="page-item">
           <a href='javascript: void(0)'
-            className={this.props.prevPageToken ? '' : 'disabled' }
+            className={(this.props.prevPageToken && !this.props.isProcessing) ? '' : 'disabled' }
             onClick={this.handleNavigate.bind(this, 'prev')}>
             &larr;
             Previous
@@ -30,7 +30,7 @@ class Pagination extends React.Component {
         </li>
         <li className="page-item">
           <a href='javascript: void(0)'
-            className={this.props.nextPageToken ? '' : 'disabled' }
+            className={(this.props.nextPageToken && !this.props.isProcessing) ? '' : 'disabled' }
             onClick={this.handleNavigate.bind(this, 'next')}>
             Next
             &rarr;
@@ -39,6 +39,12 @@ class Pagination extends React.Component {
       </ul>
     );
   }
+}
+
+Pagination.propTypes = {
+  nextPageToken: PropTypes.string,
+  prevPageToken: PropTypes.string,
+  isProcessing: PropTypes.bool
 }
 
 export default Pagination;
