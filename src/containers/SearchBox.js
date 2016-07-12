@@ -1,4 +1,3 @@
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { changeKeyword, fetchSearchResults } from '../actions/actions';
@@ -14,16 +13,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = {
-    changeKeyword,
-    fetchSearchResults
+  return {
+    onSubmit: function(keyword) {
+      dispatch(changeKeyword(keyword));
+      dispatch(fetchSearchResults());
+    }
   };
-
-  const actionMap = {
-    actions: bindActionCreators(actions, dispatch)
-  };
-
-  return actionMap;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(KeywordInput);

@@ -13,8 +13,7 @@ class KeywordInput extends React.Component {
     if (event.which === 13) {
       event.preventDefault();
 
-      this.props.actions.changeKeyword(keyword);
-      this.props.actions.fetchSearchResults();
+      this.props.onSubmit(keyword);
     }
   }
 
@@ -35,7 +34,8 @@ class KeywordInput extends React.Component {
 }
 
 KeywordInput.propTypes = {
-  isProcessing: PropTypes.bool
+  isProcessing: PropTypes.bool,
+  onSubmit: PropTypes.func
 };
 
 export default KeywordInput;

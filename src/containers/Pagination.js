@@ -1,4 +1,3 @@
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
@@ -10,8 +9,12 @@ import Pagination from '../components/Pagination';
 
 function mapStateToProps(state) {
   const props = {
-    nextPageToken: state.search.nextPageToken,
-    prevPageToken: state.search.prevPageToken,
+    hasPrevPage: function() {
+      return state.search.prevPageToken != '';
+    },
+    hasNextPage: function() {
+      return state.search.nextPageToken != '';
+    },
     isProcessing: state.search.isProcessing
   };
 
@@ -19,17 +22,17 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = {
-    navigateToNextPage,
-    navigateToPrevPage,
-    fetchSearchResults
-  };
+  return {
+    onNavigate: function(direction) {
+      if (direction === 'prev') {
+        dispatch(navigateToPrevPage());
+      } else if (direction === 'next') {
+        dispatch(navigateToNextPage());
+      }
 
-  const actionMap = {
-    actions: bindActionCreators(actions, dispatch)
+      dispatch(fetchSearchResults());
+    }
   };
-
-  return actionMap;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Pagination);

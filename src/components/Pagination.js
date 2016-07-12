@@ -6,15 +6,15 @@ class Pagination extends React.Component {
   }
 
   handleNavigate(direction) {
-    if (direction === 'prev') {
-      if (!this.props.prevPageToken) return;
-      this.props.actions.navigateToPrevPage(this.props.prevPageToken);
-    } else if (direction === 'next') {
-      if (!this.props.nextPageToken) return;
-      this.props.actions.navigateToNextPage(this.props.nextPageToken);
+    if (direction === 'prev' && !this.props.hasPrevPage()) {
+      return;
     }
 
-    this.props.actions.fetchSearchResults();
+    if (direction === 'next' && !this.props.hasNextPage()) {
+      return;
+    }
+
+    this.props.onNavigate(direction);
   }
 
   render() {
@@ -22,7 +22,7 @@ class Pagination extends React.Component {
       <ul className="pagination">
         <li className="page-item">
           <a href='javascript: void(0)'
-            className={(this.props.prevPageToken && !this.props.isProcessing) ? '' : 'disabled' }
+            className={(this.props.hasPrevPage() && !this.props.isProcessing) ? '' : 'disabled' }
             onClick={this.handleNavigate.bind(this, 'prev')}>
             &larr;
             Previous
@@ -30,7 +30,7 @@ class Pagination extends React.Component {
         </li>
         <li className="page-item">
           <a href='javascript: void(0)'
-            className={(this.props.nextPageToken && !this.props.isProcessing) ? '' : 'disabled' }
+            className={(this.props.hasNextPage() && !this.props.isProcessing) ? '' : 'disabled' }
             onClick={this.handleNavigate.bind(this, 'next')}>
             Next
             &rarr;
@@ -42,9 +42,10 @@ class Pagination extends React.Component {
 }
 
 Pagination.propTypes = {
-  nextPageToken: PropTypes.string,
-  prevPageToken: PropTypes.string,
-  isProcessing: PropTypes.bool
+  hasPrevPage: PropTypes.func,
+  hasNextPage: PropTypes.func,
+  isProcessing: PropTypes.bool,
+  onNavigate: PropTypes.func
 }
 
 export default Pagination;

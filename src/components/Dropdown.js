@@ -10,8 +10,7 @@ class Dropdown extends React.Component {
   handleChange(event) {
     var filterValue = event.target.value;
 
-    this.props.actions.setContentFilter(this.props.filterBy, filterValue);
-    this.props.actions.fetchSearchResults();
+    this.props.onFilterChange(this.props.filterBy, filterValue);
   }
 
   render() {
