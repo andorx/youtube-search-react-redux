@@ -23,6 +23,19 @@ function receiveSearchResult(results) {
   };
 }
 
+function fetchVideoDetails(videoIds) {
+  return {
+    type: actionTypes.FETCH_VIDEO_DETAILS
+  }
+}
+
+function receiveVideoDetails(results) {
+  return {
+    type: actionTypes.RECEIVE_VIDEO_DETAILS,
+    results
+  }
+}
+
 export function setContentFilter(filterType, filterValue) {
   return {
     type: actionTypes.SET_CONTENT_FILTER,
@@ -73,15 +86,16 @@ export function fetchSearchResults() {
       maxResults
     } = state.search;
 
-    const SEARCH_API =
-      YoutubeAPI.URL +
-      queryBuilder(YoutubeAPI.KEY, keyword, filters, pageToken, maxResults);
+    const SEARCH_API = YoutubeAPI.URL + 'search' +
+      searchQueryBuilder(YoutubeAPI.KEY, keyword, filters, pageToken, maxResults);
 
     dispatch(searchForVideos());
 
     return fetch(SEARCH_API)
       .then(response => response.json())
       .then(json => {
+        var videoIds = [];
+
         dispatch(receiveSearchResult(json.items));
 
         if (json.prevPageToken) {
@@ -95,12 +109,39 @@ export function fetchSearchResults() {
         } else {
           dispatch(setNextPageToken(''));
         }
+
+        return json.items;
+      })
+      // Fetching video details in background
+      .then(function(items) {
+        let VIDEO_DETAILS_API,
+            videoIds = items.map(function(item) {
+              return item.id.videoId;
+            });
+
+        VIDEO_DETAILS_API = YoutubeAPI.URL + 'videos' +
+          videoDetailsQueryBuilder(YoutubeAPI.KEY, videoIds, maxResults);
+
+        dispatch(fetchVideoDetails(videoIds));
+
+        return fetch(VIDEO_DETAILS_API)
+          .then(response => response.json())
+          .then(json => {
+            var videoDetails = {};
+
+            json.items.forEach(function(item) {
+              videoDetails[item.id] = item;
+            });
+            dispatch(receiveVideoDetails(videoDetails));
+
+            return videoDetails;
+          });
       })
       .catch(error => { throw error; });
   };
 }
 
-function queryBuilder(key, keyword, filters, pageToken, maxResults) {
+function searchQueryBuilder(key, keyword, filters, pageToken, maxResults) {
   var params = {
       part: 'snippet',
       type: 'video',
@@ -111,6 +152,21 @@ function queryBuilder(key, keyword, filters, pageToken, maxResults) {
       ...filters
     };
 
+  return paramsBuilder(params);
+}
+
+function videoDetailsQueryBuilder(key, videoIds, maxResults) {
+  var params = {
+      key,
+      part: 'contentDetails,statistics,status',
+      id: videoIds.join(','),
+      maxResults
+    };
+
+  return paramsBuilder(params);
+}
+
+function paramsBuilder(params) {
   return '?' + Object.keys(params).map(function(key) {
     if (params[key]) {
       return [key, params[key]].map(encodeURIComponent).join('=');
