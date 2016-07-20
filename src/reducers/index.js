@@ -18,8 +18,13 @@ function search(state = {
   nextPageToken: '',
   prevPageToken: '',
   maxResults: 12,
-  results: []
+  results: [],
+  videoDetails: {}
 }, action) {
+  console.log('----------------------------------------------');
+  console.info('state', state);
+  console.info('action', action);
+
   switch(action.type) {
     case actionTypes.CHANGE_KEYWORD: {
       return Object.assign({}, state, {
@@ -79,6 +84,12 @@ function search(state = {
         nextPageToken: '',
         prevPageToken: '',
         pageToken: ''
+      });
+    }
+
+    case actionTypes.RECEIVE_VIDEO_DETAILS: {
+      return Object.assign({}, state, {
+        videoDetails: action.results
       });
     }
 
