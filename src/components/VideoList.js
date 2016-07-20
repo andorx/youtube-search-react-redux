@@ -6,8 +6,10 @@ class VideoList extends React.Component {
   }
 
   render() {
-    function createItem(item) {
-      var publishedAt = new Date(item.snippet.publishedAt).toLocaleString();
+    function createItem(item, details) {
+      var publishedAt = new Date(item.snippet.publishedAt).toLocaleDateString(),
+          viewCount = details ? details.statistics.viewCount : 0,
+          likeCount = details ? details.statistics.likeCount : 0;
 
       return (
         <div key={ item.id.videoId } className="column col-3">
@@ -19,9 +21,13 @@ class VideoList extends React.Component {
               <a href={'https://youtu.be/' + item.id.videoId} target="_blank">
                 <h4 className="card-title">{ item.snippet.title }</h4>
               </a>
-              <h6 className="card-meta">{ publishedAt }</h6>
+              <h6 className="card-meta">
+                <div>Published at: { publishedAt }</div>
+                <div>Views: { viewCount }</div>
+                <div>Likes: { likeCount }</div>
+              </h6>
             </div>
-            <div className="card-body">
+            <div className="card-body text-break">
               { item.snippet.description }
             </div>
           </div>
@@ -29,9 +35,13 @@ class VideoList extends React.Component {
       );
     }
 
-    function renderItems(items) {
+    function renderItems(items, itemDetails) {
       if (items.length > 0) {
-        return items.map(createItem);
+        return items.map(function(item) {
+          var details = itemDetails[item.id.videoId];
+
+          return createItem(item, details);
+        });
       } else {
         return (
           <div className="column col-12 text-center">
@@ -48,7 +58,7 @@ class VideoList extends React.Component {
           <div className="column col-12">
             <div className="loading"></div>
           </div>
-          ) : renderItems(this.props.results)
+          ) : renderItems(this.props.results, this.props.videoDetails)
         }
       </section>
     );
