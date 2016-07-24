@@ -10,26 +10,26 @@ export function changeKeyword(keyword) {
   };
 }
 
-function searchForVideos() {
+export function searchForVideos() {
   return {
     type: actionTypes.SEARCH_FOR_VIDEOS
   };
 }
 
-function receiveSearchResult(results) {
+export function receiveSearchResult(results) {
   return {
     type: actionTypes.RECEIVE_SEARCH_RESULTS,
     results
   };
 }
 
-function fetchVideoDetails(videoIds) {
+export function fetchVideoDetails() {
   return {
     type: actionTypes.FETCH_VIDEO_DETAILS
   }
 }
 
-function receiveVideoDetails(results) {
+export function receiveVideoDetails(results) {
   return {
     type: actionTypes.RECEIVE_VIDEO_DETAILS,
     results
@@ -56,14 +56,14 @@ export function navigateToPrevPage() {
   };
 }
 
-function setPrevPageToken(prevPageToken) {
+export function setPrevPageToken(prevPageToken) {
   return {
     type: actionTypes.SET_PREV_PAGE_TOKEN,
     prevPageToken
   }
 }
 
-function setNextPageToken(nextPageToken) {
+export function setNextPageToken(nextPageToken) {
   return {
     type: actionTypes.SET_NEXT_PAGE_TOKEN,
     nextPageToken
@@ -94,8 +94,6 @@ export function fetchSearchResults() {
     return fetch(SEARCH_API)
       .then(response => response.json())
       .then(json => {
-        var videoIds = [];
-
         dispatch(receiveSearchResult(json.items));
 
         if (json.prevPageToken) {
@@ -143,11 +141,11 @@ export function fetchSearchResults() {
 
 function searchQueryBuilder(key, keyword, filters, pageToken, maxResults) {
   var params = {
+      key,
       part: 'snippet',
       type: 'video',
       q: keyword,
       pageToken,
-      key,
       maxResults,
       ...filters
     };
@@ -166,12 +164,16 @@ function videoDetailsQueryBuilder(key, videoIds, maxResults) {
   return paramsBuilder(params);
 }
 
-function paramsBuilder(params) {
-  return '?' + Object.keys(params).map(function(key) {
+export function paramsBuilder(params) {
+  var query = '?' + Object.keys(params).map(function(key) {
     if (params[key]) {
       return [key, params[key]].map(encodeURIComponent).join('=');
     }
 
     return '';
   }).join('&');
+
+  return query
+    .replace(/&+/gm, '&')
+    .replace(/&+$/gm,'');
 }
