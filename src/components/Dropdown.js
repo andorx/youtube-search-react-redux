@@ -30,7 +30,7 @@ class Dropdown extends React.Component {
 
     return (
       <select
-        className="form-select"
+        className="form-select dropdown"
         disabled={this.props.isProcessing === true}
         onChange={this.handleChange}>
         {genOptionsFromObject(this.props.values)}

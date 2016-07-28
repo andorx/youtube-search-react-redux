@@ -9,13 +9,13 @@ class ContentFilter extends React.Component {
   render() {
     return (
       <div className="text-center content-filter">
-        <div className="form-group inline mr-5">
+        <div className="form-group inline mr-5 order">
           <DropdownFilter filterBy="order" values={this.props.order} />
         </div>
-        <div className="form-group inline mr-5">
+        <div className="form-group inline mr-5 video-duration">
           <DropdownFilter filterBy="videoDuration" values={this.props.videoDuration} />
         </div>
-        <div className="form-group inline mr-5">
+        <div className="form-group inline mr-5 video-type">
           <DropdownFilter filterBy="videoType" values={this.props.videoType} />
         </div>
       </div>

@@ -7,7 +7,7 @@ class VideoList extends React.Component {
 
   render() {
     function createItem(item, details) {
-      var publishedAt = new Date(item.snippet.publishedAt).toLocaleDateString(),
+      let publishedAt = new Date(item.snippet.publishedAt).toLocaleDateString(),
           viewCount = details ? details.statistics.viewCount : 0,
           likeCount = details ? details.statistics.likeCount : 0;
 
@@ -38,7 +38,11 @@ class VideoList extends React.Component {
     function renderItems(items, itemDetails) {
       if (items.length > 0) {
         return items.map(function(item) {
-          var details = itemDetails[item.id.videoId];
+          let details;
+
+          if (itemDetails) {
+            details = itemDetails[item.id.videoId];
+          }
 
           return createItem(item, details);
         });

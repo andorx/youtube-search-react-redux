@@ -5,33 +5,21 @@ class Pagination extends React.Component {
     super(props);
   }
 
-  handleNavigate(direction) {
-    if (direction === 'prev' && !this.props.hasPrevPage()) {
-      return;
-    }
-
-    if (direction === 'next' && !this.props.hasNextPage()) {
-      return;
-    }
-
-    this.props.onNavigate(direction);
-  }
-
   render() {
     return (
       <ul className="pagination">
-        <li className="page-item">
+        <li className="page-item prev">
           <a href='javascript: void(0)'
             className={(this.props.hasPrevPage() && !this.props.isProcessing) ? '' : 'disabled' }
-            onClick={this.handleNavigate.bind(this, 'prev')}>
+            onClick={this.props.onNavigate.bind(this, 'prev')}>
             &larr;
             Previous
           </a>
         </li>
-        <li className="page-item">
+        <li className="page-item next">
           <a href='javascript: void(0)'
             className={(this.props.hasNextPage() && !this.props.isProcessing) ? '' : 'disabled' }
-            onClick={this.handleNavigate.bind(this, 'next')}>
+            onClick={this.props.onNavigate.bind(this, 'next')}>
             Next
             &rarr;
           </a>
