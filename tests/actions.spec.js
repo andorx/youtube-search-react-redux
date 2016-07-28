@@ -1,12 +1,12 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
+import { expect } from 'chai';
 
 import * as YoutubeAPI from '../src/constants/YoutubeAPI.js';
 import * as actionTypes from '../src/constants/actionTypes.js';
 import * as actions from '../src/actions/actions.js';
 
-const expect = require('chai').expect;
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
 
