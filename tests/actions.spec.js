@@ -37,6 +37,15 @@ describe('actions', () => {
     });
   });
 
+  it('should create an action to inform search video failure', () => {
+    const reason = 'no results found';
+
+    expect(actions.searchVideoFailure(reason)).to.deep.equal({
+      type: actionTypes.SEARCH_FOR_VIDEOS_FAILURE,
+      reason
+    });
+  });
+
   it('should create an action to fetch video details', () => {
     expect(actions.fetchVideoDetails()).to.deep.equal({
       type: actionTypes.FETCH_VIDEO_DETAILS
@@ -212,6 +221,34 @@ describe('actions', () => {
           }
         }
       }
+    ];
+
+    return store.dispatch(actions.fetchSearchResults())
+      .then(() => {
+        expect(store.getActions()).to.deep.equal(expectedActions);
+      });
+  });
+
+  it('creates SEARCH_FOR_VIDEOS_FAILURE when SEARCH_FOR_VIDEOS has been done with no results', () => {
+    nock(YoutubeAPI.URL + 'search')
+      .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react')
+      .reply(200, {
+        nextPageToken: '',
+        prevPageToken: '',
+        items: []
+      });
+
+    const store = mockStore({
+      search: {
+        keyword: 'react',
+        results: []
+      }
+    });
+
+    const expectedActions = [
+      { type: actionTypes.SEARCH_FOR_VIDEOS },
+      { type: actionTypes.RECEIVE_SEARCH_RESULTS, results: [] },
+      { type: actionTypes.SEARCH_FOR_VIDEOS_FAILURE, reason: 'no results found' },
     ];
 
     return store.dispatch(actions.fetchSearchResults())

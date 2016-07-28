@@ -23,6 +23,13 @@ export function receiveSearchResult(results) {
   };
 }
 
+export function searchVideoFailure(reason) {
+  return {
+    type: actionTypes.SEARCH_FOR_VIDEOS_FAILURE,
+    reason
+  }
+}
+
 export function fetchVideoDetails() {
   return {
     type: actionTypes.FETCH_VIDEO_DETAILS
@@ -96,6 +103,10 @@ export function fetchSearchResults() {
       .then(json => {
         dispatch(receiveSearchResult(json.items));
 
+        if (json.items.length <= 0) {
+          throw 'no results found';
+        }
+
         if (json.prevPageToken) {
           dispatch(setPrevPageToken(json.prevPageToken));
         } else {
@@ -108,11 +119,7 @@ export function fetchSearchResults() {
           dispatch(setNextPageToken(''));
         }
 
-        if (json.items.length > 0) {
-          return json.items;
-        } else {
-          throw 'not results found';
-        }
+        return json.items;
       })
       // Fetching video details in background
       .then(function(items) {
@@ -141,7 +148,9 @@ export function fetchSearchResults() {
             return videoDetails;
           });
       })
-      .catch(error => { throw error; });
+      .catch(error => {
+        dispatch(searchVideoFailure(error));
+      });
   };
 }
 

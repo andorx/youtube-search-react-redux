@@ -55,6 +55,16 @@ describe('search reducer', () => {
     expect(nextState.search.results).to.be.instanceof(Array);
   });
 
+  it('should handle SEARCH_FOR_VIDEOS_FAILURE', () => {
+    var nextState = reducer(undefined, {
+      type: actionTypes.SEARCH_FOR_VIDEOS_FAILURE,
+      reason: 'lorem ipsum'
+    });
+
+    expect(nextState.search.isProcessing).to.not.be.true;
+    expect(nextState.search.results).to.be.empty;;
+  });
+
   it('should handle NAVIGATE_TO_NEXT_PAGE', () => {
     expect(
       reducer({
