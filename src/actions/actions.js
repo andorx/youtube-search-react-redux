@@ -108,7 +108,11 @@ export function fetchSearchResults() {
           dispatch(setNextPageToken(''));
         }
 
-        return json.items;
+        if (json.items.length > 0) {
+          return json.items;
+        } else {
+          throw 'not results found';
+        }
       })
       // Fetching video details in background
       .then(function(items) {
@@ -127,10 +131,12 @@ export function fetchSearchResults() {
           .then(json => {
             var videoDetails = {};
 
-            json.items.forEach(function(item) {
-              videoDetails[item.id] = item;
-            });
-            dispatch(receiveVideoDetails(videoDetails));
+            if (json.items && json.items.length > 0) {
+              json.items.forEach(function(item) {
+                videoDetails[item.id] = item;
+              });
+              dispatch(receiveVideoDetails(videoDetails));
+            }
 
             return videoDetails;
           });
