@@ -5,7 +5,8 @@
 - React
 - Redux
 - Google API v3
-- Mocha + Chai + Casper (for testing)
+- Mocha + Chai + Sinon + Casper (for testing)
+- Istanbul + Isparta (coverage report)
 
 ### Usage
 Basic are:
