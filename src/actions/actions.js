@@ -116,7 +116,7 @@ export function fetchSearchResults() {
         return response.json();
       })
       .then(searchResults => {
-        dispatch(receiveSearchResult(searchResults.items || []));
+        dispatch(receiveSearchResult(searchResults.items));
 
         if (searchResults.prevPageToken) {
           dispatch(setPrevPageToken(searchResults.prevPageToken));
