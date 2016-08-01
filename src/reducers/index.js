@@ -17,13 +17,12 @@ function search(state = {
   pageToken: '',
   nextPageToken: '',
   prevPageToken: '',
-  maxResults: 12,
   results: [],
   videoDetails: {}
 }, action) {
-  console.log('----------------------------------------------');
-  console.info('state', state);
-  console.info('action', action);
+  // console.log('----------------------------------------------');
+  // console.info('state', state);
+  // console.info('action', action);
 
   switch(action.type) {
     case actionTypes.CHANGE_KEYWORD: {
@@ -42,6 +41,12 @@ function search(state = {
       return Object.assign({}, state, {
         isProcessing: false,
         results: action.results
+      });
+    }
+
+    case actionTypes.SEARCH_FOR_VIDEOS_FAILURE: {
+      return Object.assign({}, state, {
+        isProcessing: false
       });
     }
 

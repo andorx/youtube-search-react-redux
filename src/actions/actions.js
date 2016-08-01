@@ -30,9 +30,9 @@ export function searchVideoFailure(reason) {
   }
 }
 
-export function fetchVideoDetails() {
+export function requestVideoDetails() {
   return {
-    type: actionTypes.FETCH_VIDEO_DETAILS
+    type: actionTypes.REQUEST_VIDEO_DETAILS
   }
 }
 
@@ -40,6 +40,13 @@ export function receiveVideoDetails(results) {
   return {
     type: actionTypes.RECEIVE_VIDEO_DETAILS,
     results
+  }
+}
+
+export function requestVideoDetailsFailure(reason) {
+  return {
+    type: actionTypes.REQUEST_VIDEO_DETAILS_FAILURE,
+    reason
   }
 }
 
@@ -89,91 +96,114 @@ export function fetchSearchResults() {
     const {
       keyword,
       filters,
-      pageToken,
-      maxResults
+      pageToken
     } = state.search;
 
     const SEARCH_API = YoutubeAPI.URL + 'search' +
-      searchQueryBuilder(YoutubeAPI.KEY, keyword, filters, pageToken, maxResults);
+      searchQueryBuilder(YoutubeAPI.KEY, keyword, filters, pageToken);
 
     dispatch(searchForVideos());
 
     return fetch(SEARCH_API)
-      .then(response => response.json())
-      .then(json => {
-        dispatch(receiveSearchResult(json.items));
-
-        if (json.items.length <= 0) {
-          throw 'no results found';
+      .then(response => {
+        if (response.status >= 400) {
+          return response.json()
+            .then(function(json) {
+              throw json.error.message;
+            });
         }
 
-        if (json.prevPageToken) {
-          dispatch(setPrevPageToken(json.prevPageToken));
+        return response.json();
+      })
+      .then(searchResults => {
+        dispatch(receiveSearchResult(searchResults.items || []));
+
+        if (searchResults.prevPageToken) {
+          dispatch(setPrevPageToken(searchResults.prevPageToken));
         } else {
           dispatch(setPrevPageToken(''));
         }
 
-        if (json.nextPageToken) {
-          dispatch(setNextPageToken(json.nextPageToken));
+        if (searchResults.nextPageToken) {
+          dispatch(setNextPageToken(searchResults.nextPageToken));
         } else {
           dispatch(setNextPageToken(''));
         }
 
-        return json.items;
+        if (searchResults.items && searchResults.items.length > 0) {
+          dispatch(fetchVideoDetails(searchResults.items));
+        }
+
+        return searchResults.items;
       })
-      // Fetching video details in background
-      .then(function(items) {
-        let VIDEO_DETAILS_API,
-            videoIds = items.map(function(item) {
-              return item.id.videoId;
-            });
-
-        VIDEO_DETAILS_API = YoutubeAPI.URL + 'videos' +
-          videoDetailsQueryBuilder(YoutubeAPI.KEY, videoIds, maxResults);
-
-        dispatch(fetchVideoDetails(videoIds));
-
-        return fetch(VIDEO_DETAILS_API)
-          .then(response => response.json())
-          .then(json => {
-            var videoDetails = {};
-
-            if (json.items && json.items.length > 0) {
-              json.items.forEach(function(item) {
-                videoDetails[item.id] = item;
-              });
-              dispatch(receiveVideoDetails(videoDetails));
-            }
-
-            return videoDetails;
-          });
-      })
-      .catch(error => {
-        dispatch(searchVideoFailure(error));
+      .catch(reason => {
+        dispatch(searchVideoFailure(reason));
       });
   };
 }
 
-function searchQueryBuilder(key, keyword, filters, pageToken, maxResults) {
+export function fetchVideoDetails(videoSnippets) {
+  return dispatch => {
+    let VIDEO_DETAILS_API,
+        videoIds = videoSnippets.map(function(snippet) {
+          return snippet.id.videoId;
+        });
+
+    VIDEO_DETAILS_API = YoutubeAPI.URL + 'videos' +
+      videoDetailsQueryBuilder(YoutubeAPI.KEY, videoIds);
+
+    dispatch(requestVideoDetails(videoIds));
+
+    return fetch(VIDEO_DETAILS_API)
+      .then(response => {
+        if (response.status >= 400) {
+          return response.json()
+            .then(function(json) {
+              throw json.error.message;
+            });
+        }
+
+        return response.json();
+      })
+      .then(results => {
+        var videoDetails = {};
+
+        if (results.items && results.items.length > 0) {
+          results.items.forEach(function(item) {
+            videoDetails[item.id] = item;
+          });
+
+          dispatch(receiveVideoDetails(videoDetails));
+        }
+
+        return videoDetails;
+      })
+      .catch(reason => {
+        dispatch(requestVideoDetailsFailure(reason));
+      });
+  };
+}
+
+function searchQueryBuilder(key, keyword, filters, pageToken) {
   var params = {
       key,
       part: 'snippet',
       type: 'video',
       q: keyword,
       pageToken,
-      maxResults,
+      maxResults: YoutubeAPI.MAX_RESULTS,
       ...filters
     };
 
   return paramsBuilder(params);
 }
 
-function videoDetailsQueryBuilder(key, videoIds, maxResults) {
+function videoDetailsQueryBuilder(key, videoIds) {
   var params = {
       key,
       part: 'contentDetails,statistics,status',
       id: videoIds.join(','),
-      maxResults
+      maxResults: YoutubeAPI.MAX_RESULTS
     };
 
   return paramsBuilder(params);
