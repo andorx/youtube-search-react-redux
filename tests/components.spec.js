@@ -11,7 +11,7 @@ import VideoList from '../src/components/VideoList';
 
 describe('components', () => {
   describe('KeywordInput', () => {
-    it('should have className "search-box"', () => {
+    it('should have className \'search-box\'', () => {
       const KeywordInputComponent = createComponent(KeywordInput, {
         isProcessing: false
       });
@@ -44,7 +44,7 @@ describe('components', () => {
       input.value = 'foo';
 
       TestUtils.Simulate.keyDown(input, {
-        key: "Enter",
+        key: 'Enter',
         keyCode: 13,
         which: 13
       });
@@ -54,7 +54,7 @@ describe('components', () => {
   });
 
   describe('Dropdown', () => {
-    it('should have className "dropdown"', () => {
+    it('should have className \'dropdown\'', () => {
       const DropdownComponent = createComponent(Dropdown, {
         isProcessing: false,
         values: {}
@@ -89,7 +89,7 @@ describe('components', () => {
       };
       const component = TestUtils.renderIntoDocument(
          <Dropdown
-          filterBy="videoType"
+          filterBy='videoType'
           values={ options }
           onFilterChange={ callback } />
       );
@@ -108,7 +108,7 @@ describe('components', () => {
   });
 
   describe('Pagination', () => {
-    it('should have className "pagination"', () => {
+    it('should have className \'pagination\'', () => {
       const PaginationComponent = createComponent(Pagination, {
         isProcessing: false,
         hasPrevPage: () => {},
@@ -194,7 +194,7 @@ describe('components', () => {
   });
 
   describe('VideoList', () => {
-    it('should have className "search-results"', () => {
+    it('should have className \'search-results\'', () => {
       const VideoListComponent = createComponent(VideoList, {
         results: [],
         isProcessing: false
@@ -229,43 +229,43 @@ describe('components', () => {
       const VideoListComponent = createComponent(VideoList, {
         results: [
           {
-            "id": {
-              "kind": "youtube#video",
-              "videoId": "fk4BbF7B29w"
+            'id': {
+              'kind': 'youtube#video',
+              'videoId': 'fk4BbF7B29w'
              },
-            "snippet": {
-              "publishedAt": "2016-05-23T01:46:00.000Z",
-              "title": "Lorem ipsum dolor sit amet",
-              "description": "Consectetur adipisicing elit. Suscipit, illum.",
-              "thumbnails": {
-                "high": {
-                  "url": "https://i.ytimg.com/vi/fk4BbF7B29w/hqdefault.jpg",
+            'snippet': {
+              'publishedAt': '2016-05-23T01:46:00.000Z',
+              'title': 'Lorem ipsum dolor sit amet',
+              'description': 'Consectetur adipisicing elit. Suscipit, illum.',
+              'thumbnails': {
+                'high': {
+                  'url': 'https://i.ytimg.com/vi/fk4BbF7B29w/hqdefault.jpg'
                 }
               }
             }
           },
           {
-            "id": {
-              "kind": "youtube#video",
-              "videoId": "-l2KPjQ2lJA"
+            'id': {
+              'kind': 'youtube#video',
+              'videoId': '-l2KPjQ2lJA'
              },
-            "snippet": {
-              "publishedAt": "2015-11-18T14:00:00.000Z",
-              "title": "Lorem ipsum dolor sit amet",
-              "description": "Consectetur adipisicing elit. Suscipit, illum.",
-              "thumbnails": {
-                "high": {
-                  "url": "https://i.ytimg.com/vi/-l2KPjQ2lJA/hqdefault.jpg",
+            'snippet': {
+              'publishedAt': '2015-11-18T14:00:00.000Z',
+              'title': 'Lorem ipsum dolor sit amet',
+              'description': 'Consectetur adipisicing elit. Suscipit, illum.',
+              'thumbnails': {
+                'high': {
+                  'url': 'https://i.ytimg.com/vi/-l2KPjQ2lJA/hqdefault.jpg'
                 }
               }
             }
           }
         ],
         videoDetails: {
-          "fk4BbF7B29w": {
-            "statistics": {
-              "viewCount": "139681751",
-              "likeCount": "1492456"
+          'fk4BbF7B29w': {
+            'statistics': {
+              'viewCount': '139681751',
+              'likeCount': '1492456'
             }
           }
         },

@@ -1,7 +1,8 @@
 const screenshotPath = './tests/browser/screenshots/';
 
-casper.on("page.error", function(msg, trace) {
-  this.echo("Error: " + msg, "ERROR");
+casper.on('page.error', function(message, trace) {
+  this.echo('Error: ' + message, 'ERROR');
+  this.echo('Trace: ' + trace, 'INFO');
 });
 
 describe('Videos searching', function() {
@@ -10,7 +11,7 @@ describe('Videos searching', function() {
       this.capture(screenshotPath + '1 - first-launch.png');
 
       this.fillSelectors('.search-box', {
-        'input' : 'react',
+        'input' : 'react'
       });
       this.sendKeys('.search-box > input', this.page.event.key.Enter, { keepFocus: true });
     });
@@ -80,12 +81,12 @@ describe('Videos searching', function() {
         this.capture(screenshotPath + '5.1 - filtered-search-results.png');
         this.evaluate(function() {
           // https://github.com/facebook/react/issues/3249
-          var event = document.createEvent("HTMLEvents");
+          var event = document.createEvent('HTMLEvents');
 
           event.initEvent('change', true, true);
           document.querySelector('.content-filter .order select').selectedIndex = 2;
           document.querySelector('.content-filter .order select')
-            .dispatchEvent(event);;
+            .dispatchEvent(event);
         });
 
         this.waitWhileSelector('.loading', function gone() {
@@ -98,11 +99,11 @@ describe('Videos searching', function() {
     });
   });
 
-  it('should show "No results found"', function() {
+  it('should show \'No results found\'', function() {
     casper.then(function() {
       this.waitWhileSelector('.loading', function() {
         this.fillSelectors('.search-box', {
-          'input' : 'qwertyfghasdf',
+          'input' : 'qwertyfghasdf'
         });
         this.sendKeys('.search-box > input', this.page.event.key.Enter, { keepFocus: true });
         this.capture(screenshotPath + '6.1 - no-results-found.png');

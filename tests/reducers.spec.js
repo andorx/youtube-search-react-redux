@@ -61,7 +61,7 @@ describe('search reducer', () => {
     });
 
     expect(nextState.search.isProcessing).to.not.be.true;
-    expect(nextState.search.results).to.be.empty;;
+    expect(nextState.search.results).to.be.empty;
   });
 
   it('should handle NAVIGATE_TO_NEXT_PAGE', () => {

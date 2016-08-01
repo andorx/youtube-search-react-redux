@@ -248,7 +248,7 @@ describe('actions', () => {
       .reply(400, {
         error: {
           code: 400,
-          message: "Foo"
+          message: 'Foo'
         }
       });
 
@@ -260,7 +260,7 @@ describe('actions', () => {
 
     const expectedActions = [
       { type: actionTypes.SEARCH_FOR_VIDEOS },
-      { type: actionTypes.SEARCH_FOR_VIDEOS_FAILURE, reason: 'Foo' },
+      { type: actionTypes.SEARCH_FOR_VIDEOS_FAILURE, reason: 'Foo' }
     ];
 
     return store.dispatch(actions.fetchSearchResults())
@@ -275,7 +275,7 @@ describe('actions', () => {
       .reply(400, {
         error: {
           code: 400,
-          message: "Foo"
+          message: 'Foo'
         }
       });
     const store = mockStore({
