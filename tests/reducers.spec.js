@@ -19,7 +19,6 @@ describe('search reducer', () => {
         pageToken: '',
         nextPageToken: '',
         prevPageToken: '',
-        maxResults: 12,
         results: [],
         videoDetails: {}
       }

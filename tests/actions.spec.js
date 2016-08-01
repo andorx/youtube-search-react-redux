@@ -47,8 +47,8 @@ describe('actions', () => {
   });
 
   it('should create an action to fetch video details', () => {
-    expect(actions.fetchVideoDetails()).to.deep.equal({
-      type: actionTypes.FETCH_VIDEO_DETAILS
+    expect(actions.requestVideoDetails()).to.deep.equal({
+      type: actionTypes.REQUEST_VIDEO_DETAILS
     });
   });
 
@@ -120,7 +120,7 @@ describe('actions', () => {
 
   it('creates RECEIVE_SEARCH_RESULTS when SEARCH_FOR_VIDEOS has been done', () => {
     nock(YoutubeAPI.URL + 'search')
-      .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react')
+      .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react&maxResults=12')
       .reply(200, {
         nextPageToken: 'next',
         prevPageToken: 'prev',
@@ -133,7 +133,7 @@ describe('actions', () => {
       });
 
     nock(YoutubeAPI.URL + 'videos')
-      .get('?key=' + YoutubeAPI.KEY + '&part=contentDetails%2Cstatistics%2Cstatus&id=bar')
+      .get('?key=' + YoutubeAPI.KEY + '&part=contentDetails%2Cstatistics%2Cstatus&id=bar&maxResults=12')
       .reply(200, {
         items: [{
           foo: 'foo',
@@ -159,14 +159,7 @@ describe('actions', () => {
       },
       { type: actionTypes.SET_PREV_PAGE_TOKEN, prevPageToken: 'prev' },
       { type: actionTypes.SET_NEXT_PAGE_TOKEN, nextPageToken: 'next' },
-      { type: actionTypes.FETCH_VIDEO_DETAILS },
-      { type: actionTypes.RECEIVE_VIDEO_DETAILS, results: {
-          'bar': {
-            foo: 'foo',
-            id: 'bar'
-          }
-        }
-      }
+      { type: actionTypes.REQUEST_VIDEO_DETAILS }
     ];
 
     return store.dispatch(actions.fetchSearchResults())
@@ -177,7 +170,7 @@ describe('actions', () => {
 
   it('creates RECEIVE_SEARCH_RESULTS when SEARCH_FOR_VIDEOS has been done with only one page result', () => {
     nock(YoutubeAPI.URL + 'search')
-      .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react')
+      .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react&maxResults=12')
       .reply(200, {
         items: [{
           foo: 'foo',
@@ -188,7 +181,7 @@ describe('actions', () => {
       });
 
     nock(YoutubeAPI.URL + 'videos')
-      .get('?key=' + YoutubeAPI.KEY + '&part=contentDetails%2Cstatistics%2Cstatus&id=bar')
+      .get('?key=' + YoutubeAPI.KEY + '&part=contentDetails%2Cstatistics%2Cstatus&id=bar&maxResults=12')
       .reply(200, {
         items: [{
           foo: 'foo',
@@ -213,14 +206,7 @@ describe('actions', () => {
       },
       { type: actionTypes.SET_PREV_PAGE_TOKEN, prevPageToken: '' },
       { type: actionTypes.SET_NEXT_PAGE_TOKEN, nextPageToken: '' },
-      { type: actionTypes.FETCH_VIDEO_DETAILS },
-      { type: actionTypes.RECEIVE_VIDEO_DETAILS, results: {
-          'bar': {
-            foo: 'foo',
-            id: 'bar'
-          }
-        }
-      }
+      { type: actionTypes.REQUEST_VIDEO_DETAILS }
     ];
 
     return store.dispatch(actions.fetchSearchResults())
@@ -229,12 +215,10 @@ describe('actions', () => {
       });
   });
 
-  it('creates SEARCH_FOR_VIDEOS_FAILURE when SEARCH_FOR_VIDEOS has been done with no results', () => {
+  it('creates RECEIVE_SEARCH_RESULTS when SEARCH_FOR_VIDEOS has been done with no results', () => {
     nock(YoutubeAPI.URL + 'search')
-      .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react')
+      .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react&maxResults=12')
       .reply(200, {
-        nextPageToken: '',
-        prevPageToken: '',
         items: []
       });
 
@@ -248,10 +232,71 @@ describe('actions', () => {
     const expectedActions = [
       { type: actionTypes.SEARCH_FOR_VIDEOS },
       { type: actionTypes.RECEIVE_SEARCH_RESULTS, results: [] },
-      { type: actionTypes.SEARCH_FOR_VIDEOS_FAILURE, reason: 'no results found' },
+      { type: actionTypes.SET_PREV_PAGE_TOKEN, prevPageToken: '' },
+      { type: actionTypes.SET_NEXT_PAGE_TOKEN, nextPageToken: '' }
     ];
 
     return store.dispatch(actions.fetchSearchResults())
+      .then(() => {
+        expect(store.getActions()).to.deep.equal(expectedActions);
+      });
+  });
+
+  it('creates SEARCH_FOR_VIDEOS_FAILURE when SEARCH_FOR_VIDEOS has been done with error', () => {
+    nock(YoutubeAPI.URL + 'search')
+      .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react&maxResults=12')
+      .reply(400, {
+        error: {
+          code: 400,
+          message: "Foo"
+        }
+      });
+
+    const store = mockStore({
+      search: {
+        keyword: 'react'
+      }
+    });
+
+    const expectedActions = [
+      { type: actionTypes.SEARCH_FOR_VIDEOS },
+      { type: actionTypes.SEARCH_FOR_VIDEOS_FAILURE, reason: 'Foo' },
+    ];
+
+    return store.dispatch(actions.fetchSearchResults())
+      .then(() => {
+        expect(store.getActions()).to.deep.equal(expectedActions);
+      });
+  });
+
+  it('creates REQUEST_VIDEO_DETAILS_FAILURE when RECEIVE_VIDEO_DETAILS has been done with error', () => {
+    nock(YoutubeAPI.URL + 'videos')
+      .get('?key=' + YoutubeAPI.KEY + '&part=contentDetails%2Cstatistics%2Cstatus&id=bar&maxResults=12')
+      .reply(400, {
+        error: {
+          code: 400,
+          message: "Foo"
+        }
+      });
+    const store = mockStore({
+      search: {
+        keyword: 'react'
+      }
+    });
+
+    const expectedActions = [
+      { type: actionTypes.REQUEST_VIDEO_DETAILS },
+      { type: actionTypes.REQUEST_VIDEO_DETAILS_FAILURE, reason: 'Foo' }
+    ];
+
+    return store.dispatch(actions.fetchVideoDetails([
+        {
+          foo: 'foo',
+          id: {
+            videoId: 'bar'
+          }
+        }
+      ]))
       .then(() => {
         expect(store.getActions()).to.deep.equal(expectedActions);
       });
