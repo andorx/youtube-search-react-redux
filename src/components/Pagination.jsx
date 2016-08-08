@@ -9,7 +9,8 @@ class Pagination extends React.Component {
     return (
       <ul className="pagination">
         <li className="page-item prev">
-          <a href='javascript: void(0)'
+          <a
+            href='javascript: void(0)'
             className={(this.props.hasPrevPage() && !this.props.isProcessing) ? '' : 'disabled' }
             onClick={this.props.onNavigate.bind(this, 'prev')}>
             &larr;
@@ -17,7 +18,8 @@ class Pagination extends React.Component {
           </a>
         </li>
         <li className="page-item next">
-          <a href='javascript: void(0)'
+          <a
+            href='javascript: void(0)'
             className={(this.props.hasNextPage() && !this.props.isProcessing) ? '' : 'disabled' }
             onClick={this.props.onNavigate.bind(this, 'next')}>
             Next

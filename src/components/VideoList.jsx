@@ -12,23 +12,23 @@ class VideoList extends React.Component {
           likeCount = details ? details.statistics.likeCount : 0;
 
       return (
-        <div key={ item.id.videoId } className="column col-3">
+        <div key={item.id.videoId} className="column col-3">
           <div className="card">
             <div className="card-image">
-              <img src={ item.snippet.thumbnails.high.url } className="img-responsive" />
+              <img src={item.snippet.thumbnails.high.url} className="img-responsive" />
             </div>
             <div className="card-header">
               <a href={'https://youtu.be/' + item.id.videoId} target="_blank">
-                <h4 className="card-title">{ item.snippet.title }</h4>
+                <h4 className="card-title">{item.snippet.title}</h4>
               </a>
               <h6 className="card-meta">
-                <div>Published at: { publishedAt }</div>
-                <div>Views: { viewCount }</div>
-                <div>Likes: { likeCount }</div>
+                <div>Published at: {publishedAt}</div>
+                <div>Views: {viewCount}</div>
+                <div>Likes: {likeCount}</div>
               </h6>
             </div>
             <div className="card-body text-break">
-              { item.snippet.description }
+              {item.snippet.description}
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@ class VideoList extends React.Component {
 
     function renderItems(items, itemDetails) {
       if (items.length > 0) {
-        return items.map(function(item) {
+        return items.map((item) => {
           let details;
 
           if (itemDetails) {
@@ -59,9 +59,9 @@ class VideoList extends React.Component {
       <section className="columns col-multiline search-results">
         {
           this.props.isProcessing ? (
-          <div className="column col-12">
-            <div className="loading"></div>
-          </div>
+            <div className="column col-12">
+              <div className="loading"></div>
+            </div>
           ) : renderItems(this.props.results, this.props.videoDetails)
         }
       </section>
