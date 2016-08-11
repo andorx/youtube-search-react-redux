@@ -7,6 +7,11 @@ import {
 } from '../actions/actions';
 import Pagination from '../components/Pagination';
 
+/**
+ * Mapping necessary state to component props
+ * @param  {Object} state Search state
+ * @return {Object}       Component props
+ */
 function mapStateToProps(state) {
   const props = {
     hasPrevPage: function() {
@@ -21,6 +26,11 @@ function mapStateToProps(state) {
   return props;
 }
 
+/**
+ * Mapping actions to component this.props
+ * @param  {Function} dispatch
+ * @return {Object}
+ */
 function mapDispatchToProps(dispatch) {
   return {
     onNavigate: function(direction) {

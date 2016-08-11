@@ -3,6 +3,11 @@ import { connect } from 'react-redux';
 import { changeKeyword, resetPageToken, fetchSearchResults } from '../actions/actions';
 import KeywordInput from '../components/KeywordInput';
 
+/**
+ * Mapping necessary state to component props
+ * @param  {Object} state Search state
+ * @return {Object}       Component props
+ */
 function mapStateToProps(state) {
   const props = {
     keyword: state.search.keyword,
@@ -12,6 +17,11 @@ function mapStateToProps(state) {
   return props;
 }
 
+/**
+ * Mapping actions to component this.props
+ * @param  {Function} dispatch
+ * @return {Object}
+ */
 function mapDispatchToProps(dispatch) {
   return {
     onSubmit: function(keyword) {
