@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import DropdownFilter from '../containers/DropdownFilter';
 
+/**
+ * Component that wraps content filter components
+ */
 class ContentFilter extends React.Component {
   constructor(props) {
     super(props);
@@ -23,19 +26,26 @@ class ContentFilter extends React.Component {
   }
 }
 
+/**
+ * Listing of filter values
+ * @type {Object}
+ */
 ContentFilter.defaultProps = {
+  // Method is used to order resources
   order: {
     '': 'Sort by',
     'date': 'Upload date',
     'rating': 'Rating',
     'viewCount': 'View count'
   },
+  // Filter results based on their duration
   videoDuration: {
     '': 'Duration',
     'long': 'Long (> 20 mins)',
     'medium': 'Medium (4-20 mins)',
     'short': 'Short (< 4 mins)'
   },
+  // Restrict a search to a particular type of videos
   videoType: {
     '': 'Type',
     'episode': 'Episode',

@@ -1,5 +1,8 @@
 import React, { PropTypes } from 'react';
 
+/**
+ * Content filter components
+ */
 class Dropdown extends React.Component {
   constructor(props) {
     super(props);
@@ -7,6 +10,10 @@ class Dropdown extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  /**
+   * Filter change handler
+   * @param  {Object} event DOMEvent
+   */
   handleChange(event) {
     var filterValue = event.target.value;
 

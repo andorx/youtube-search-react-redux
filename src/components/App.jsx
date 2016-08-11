@@ -8,6 +8,9 @@ import ContentFilter from './ContentFilter';
 import SearchResults from '../containers/SearchResults';
 import Pagination from '../containers/Pagination';
 
+/**
+ * Main commponent that wraps child components into an app
+ */
 class YTSearch extends React.Component {
   render() {
     return (
