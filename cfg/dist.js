@@ -24,9 +24,9 @@ let config = Object.assign({}, baseConfig, {
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
+    // Prevent webpack process exit with an error code
     new webpack.NoErrorsPlugin()
-  ],
-  module: defaultSettings.getDefaultModules()
+  ]
 });
 
 // Add needed loaders to the defaults here

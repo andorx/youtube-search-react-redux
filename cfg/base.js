@@ -25,18 +25,21 @@ module.exports = {
     hot: true,
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
-    noInfo: false
+    noInfo: false,
+    stats: {
+      chunks: false
+    }
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
       actions: `${defaultSettings.srcPath}/actions/`,
       components: `${defaultSettings.srcPath}/components/`,
-      sources: `${defaultSettings.srcPath}/sources/`,
+      containers: `${defaultSettings.srcPath}/containers/`,
+      reducers: `${defaultSettings.srcPath}/reducers/`,
       stores: `${defaultSettings.srcPath}/stores/`,
-      styles: `${defaultSettings.srcPath}/styles/`,
-      config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV
+      styles: `${defaultSettings.srcPath}/styles/`
     }
   },
-  module: {}
+  module: defaultSettings.getDefaultModules() ,
 };

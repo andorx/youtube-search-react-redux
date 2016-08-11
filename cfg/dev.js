@@ -19,12 +19,14 @@ let config = Object.assign({}, baseConfig, {
   devtool: 'eval-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    // Preventing webpack process exit with an error code
     new webpack.NoErrorsPlugin(),
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
-    })
-  ],
-  module: defaultSettings.getDefaultModules()
+    }),
+    // Getting environment variables
+    new webpack.EnvironmentPlugin(['API_KEY'])
+  ]
 });
 
 // Add needed loaders to the defaults here
