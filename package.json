@@ -1,6 +1,5 @@
 {
   "name": "youtubeSearch",
-  "private": true,
   "version": "0.1.0",
   "description": "Practice Youtube Search with React, Redux, Webpack",
   "scripts": {
