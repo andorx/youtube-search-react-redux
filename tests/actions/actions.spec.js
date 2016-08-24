@@ -3,9 +3,9 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 import { expect } from 'chai';
 
-import * as YoutubeAPI from '../src/constants/YoutubeAPI.js';
-import * as actionTypes from '../src/constants/actionTypes.js';
-import * as actions from '../src/actions/actions.js';
+import * as YoutubeAPI from '../../src/constants/YoutubeAPI.js';
+import * as actionTypes from '../../src/constants/actionTypes.js';
+import * as actions from '../../src/actions/actions.js';
 
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
@@ -118,7 +118,7 @@ describe('actions', () => {
     expect(actions.paramsBuilder(params)).to.equal('?foo=foo&bar=bar');
   });
 
-  it('creates RECEIVE_SEARCH_RESULTS when SEARCH_FOR_VIDEOS has been done', () => {
+  it('should create RECEIVE_SEARCH_RESULTS when SEARCH_FOR_VIDEOS has been done', () => {
     nock(YoutubeAPI.URL + 'search')
       .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react&maxResults=12')
       .reply(200, {
@@ -168,7 +168,7 @@ describe('actions', () => {
       });
   });
 
-  it('creates RECEIVE_SEARCH_RESULTS when SEARCH_FOR_VIDEOS has been done with only one page result', () => {
+  it('should create RECEIVE_SEARCH_RESULTS when SEARCH_FOR_VIDEOS has been done with only one page result', () => {
     nock(YoutubeAPI.URL + 'search')
       .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react&maxResults=12')
       .reply(200, {
@@ -215,7 +215,7 @@ describe('actions', () => {
       });
   });
 
-  it('creates RECEIVE_SEARCH_RESULTS when SEARCH_FOR_VIDEOS has been done with no results', () => {
+  it('should create RECEIVE_SEARCH_RESULTS when SEARCH_FOR_VIDEOS has been done with no results', () => {
     nock(YoutubeAPI.URL + 'search')
       .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react&maxResults=12')
       .reply(200, {
@@ -242,7 +242,7 @@ describe('actions', () => {
       });
   });
 
-  it('creates SEARCH_FOR_VIDEOS_FAILURE when SEARCH_FOR_VIDEOS has been done with error', () => {
+  it('should create SEARCH_FOR_VIDEOS_FAILURE when SEARCH_FOR_VIDEOS has been done with error', () => {
     nock(YoutubeAPI.URL + 'search')
       .get('?key=' + YoutubeAPI.KEY + '&part=snippet&type=video&q=react&maxResults=12')
       .reply(400, {
@@ -269,7 +269,7 @@ describe('actions', () => {
       });
   });
 
-  it('creates REQUEST_VIDEO_DETAILS_FAILURE when RECEIVE_VIDEO_DETAILS has been done with error', () => {
+  it('should create REQUEST_VIDEO_DETAILS_FAILURE when RECEIVE_VIDEO_DETAILS has been done with error', () => {
     nock(YoutubeAPI.URL + 'videos')
       .get('?key=' + YoutubeAPI.KEY + '&part=contentDetails%2Cstatistics%2Cstatus&id=bar&maxResults=12')
       .reply(400, {

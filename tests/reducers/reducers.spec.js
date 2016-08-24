@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import * as actionTypes from '../src/constants/actionTypes.js';
-import reducer from '../src/reducers/index';
+import * as actionTypes from '../../src/constants/actionTypes.js';
+import reducer from '../../src/reducers/index';
 
 describe('search reducer', () => {
   it('should return the initial state', () => {

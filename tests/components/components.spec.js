@@ -3,11 +3,11 @@ import TestUtils from 'react-addons-test-utils';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import createComponent from './helpers/shallowRenderHelper';
-import KeywordInput from '../src/components/KeywordInput';
-import Dropdown from '../src/components/Dropdown';
-import Pagination from '../src/components/Pagination';
-import VideoList from '../src/components/VideoList';
+import createComponent from '../helpers/shallowRenderHelper';
+import KeywordInput from '../../src/components/KeywordInput';
+import Dropdown from '../../src/components/Dropdown';
+import Pagination from '../../src/components/Pagination';
+import VideoList from '../../src/components/VideoList';
 
 describe('components', () => {
   describe('KeywordInput', () => {
