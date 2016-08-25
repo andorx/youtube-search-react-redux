@@ -1,3 +1,5 @@
+require('../helpers/setup');
+
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import sinon from 'sinon';
