@@ -29,7 +29,9 @@
     "apiv3"
   ],
   "author": "Duc N. PHAM",
-  "engine": "node >= 5",
+  "engine": {
+    "node": ">=5"
+  },
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.0.0",

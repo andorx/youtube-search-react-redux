@@ -5,7 +5,7 @@ const args = require('minimist')(process.argv.slice(2));
 
 // List of allowed environments
 const allowedEnvs = ['dev', 'dist'];
-let env = args.env;
+const env = args.env;
 
 /**
  * Build the webpack configuration
