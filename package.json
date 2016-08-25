@@ -16,7 +16,8 @@
     "test:watch": "npm test -- --watch",
     "test:e2e": "mocha-casperjs ./tests/browser/browser.js",
     "coverage": "babel-node ./node_modules/.bin/isparta cover --include '**/*.js' --include '**/*.jsx' --report html ./node_modules/.bin/_mocha -- --compilers css:tests/helpers/skipStyles.js --reporter dot tests/**/*.spec.js",
-    "deploy": "npm run dist && firebase deploy"
+    "deploy-staging": "npm run dist && firebase deploy --project apricot-1a2ad",
+    "deploy-qa": "npm run dist && firebase deploy --project apricot-qa"
   },
   "repository": "https://github.com/andorx/youtube-search-react-redux",
   "keywords": [
